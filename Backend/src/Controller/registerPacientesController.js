@@ -84,9 +84,8 @@ registerPacientesController.registerPaciente = async (req, res) => {
 
 registerPacientesController.verifyCode = async(req, res) =>{
     try {
-        const {verificationCodeRequest} = req.body;
 
-        const token = req.cookies.VerificationToken
+        const token = req.cookies.VerificationCode
         
         const decoded = jsonwebtoken.verify(
             token,
@@ -101,16 +100,13 @@ registerPacientesController.verifyCode = async(req, res) =>{
             phone,
             address,
             phoneEmergencyContacts,
-            profilephoto,
+            profilePhoto,
             public_id,
             VerificationCode: storedCode,
             loginAttemps,
             timeOut,
         } = decoded
 
-        if (verificationCodeRequest.trim().toLowerCase()!== storedCode.toLowerCase()) {
-            return res.status(400).json({message: "Codigo De Verificacion Invalido"})
-        }
 
         const newPaciente = new pacienteModel({
             name,
